@@ -4,21 +4,35 @@
     --slate-300: hsl(212, 45%, 89%);
     --slate-500: hsl(216, 15%, 48%);
     --slate-900: hsl(218, 44%, 22%);
+
+    /* sizing */
     --radius-card: 20px;
     --radius-img: 10px;
-    --card-w: 320px;
+    --card-w: 320px;  /* base (mobile) card width */
     --pad: 16px;
 }
+/* 1) predictable sizing everywhere */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
 h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
+
+html { font-size: 100%; }
 body {
     background-color: var(--slate-300);
     margin: 0;
     min-height: 100vh;
+      /* 2) center the card; keep a little breathing room on tiny screens */
     display: grid;
     place-items: center; 
-    font-size: 15px;
+    padding-inline: clamp(12px, 4vw, 24px);
+     /* base copy size for mobile */
+  font-size: 15px;
+  line-height: 1.5; /* consistent rhythm */
+  font-family: 'Outfit', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 }
 .card {
     background-color: var(--white);
@@ -29,34 +43,38 @@ body {
     display: flex;                   /* enables flex layout */
     flex-direction: column;          /* stack children vertically */
     align-items: center;   
-    width: var(--card-w);    /* base card width */
-    max-width: 90vw; 
     gap: 16px;
+    /* 3) fluid width first; clamps to --card-w on normal phones */
+  width: min(100%, var(--card-w));
 }
 .qr-code {
     border-radius: var(--radius-img);
-    margin: auto;
+    display: block;
     width: 100%;
     height: auto;
-    display:block;
 }
 h2 {
-  font-family: 'Outfit', sans-serif;
   font-weight: 700;
   font-size: 1.375rem;
-  line-height: 1.6rem;
+  line-height: 1.3;
   color: var(--slate-900);
-  text-align: center;
-  width: 100%;
   max-width: 24ch;
 }
 p {
-    font-family: 'Outfit', sans-serif;
     color: var(--slate-500);
     font-size: 0.9375rem;
     line-height: 1.45;
     font-weight: 400;
     max-width: 30ch;
-    width: 100%;
     padding-bottom: 1rem;
+}
+/* 4) single, gentle enhancement for wider screens */
+@media (min-width: 600px) {
+  :root {
+    --card-w: 360px; /* scale the card slightly on tablets/small laptops */
+    --pad: 20px;
+  }
+
+  h2 { font-size: 1.5rem; }   /* 24px */
+  p  { font-size: 1rem; }     /* 16px */
 }
